@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function LinkedList() {
+export default function OptionList() {
   return (
     <>
       <select name="" id="">
