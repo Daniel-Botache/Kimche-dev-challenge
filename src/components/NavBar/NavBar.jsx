@@ -6,6 +6,9 @@ export default function NavBar() {
   return (
     <div>
       <SearchBar />
+      <div>
+        <h6>Filtros</h6>
+      </div>
       <FilterBar />
     </div>
   );
