@@ -4,7 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { client } from "./Apollo/Client";
 import Home from "./views/Home";
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloProvider, InMemoryCache } from "@apollo/client";
 
 function App() {
   return (
