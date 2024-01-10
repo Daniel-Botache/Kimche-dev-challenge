@@ -1,0 +1,66 @@
+.principalContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: fixed;
+    height: 15%;
+    justify-content:flex-start;
+    align-items: center;
+}
+
+.searchCointainer {
+    width: 100%;
+    padding: 0px 20px 0px 10px;
+    margin: 0px auto;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: space-around;
+    position: relative;
+    z-index: 2;
+    height: 50px;
+    background-color: black;
+  }
+
+.title {
+    position: absolute;
+    top:0.5em;
+    width: 50%;
+    text-align: left;
+    font-family: 'Get Schwifty';
+    font-size: 2em;
+    color: #08BAE3;
+    z-index: 50;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.5);
+    left: 0px;
+    top:-10px;
+  }
+   
+  .spanTitle{
+    font-size: 0.5em;
+    
+  }
+  .title.middle {
+    -webkit-text-stroke: 0.1em #FFF765;
+    z-index: 49;
+  }
+  
+  .title.bottom {
+    -webkit-text-stroke: 0.4em black;
+    z-index: 48;
+  }
+  
+  .tittleContainer{
+    position: relative;
+    width: 30%;
+    background-color: black;
+  }
+
+  .filterContainer{
+    width: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+
+  }
