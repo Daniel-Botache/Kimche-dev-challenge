@@ -7,8 +7,8 @@ export default function Cards({ characters }) {
   console.log(characters);
   return (
     <div>
-      {characters.map(({ name, image }) => (
-        <Card key={name} name={name} img={image} />
+      {characters.map(({ name, image, id }) => (
+        <Card key={id} name={name} img={image} />
       ))}
     </div>
   );

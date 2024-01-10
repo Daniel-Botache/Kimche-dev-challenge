@@ -20,6 +20,7 @@ export default function Home() {
         results {
           name
           image
+          id
         }
       }
     }
@@ -34,7 +35,7 @@ export default function Home() {
       }
       results {
         name,
-        image
+        image, id
       }
     }
   }
