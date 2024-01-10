@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import FilterBar from "../FilterBar/FilterBar";
 import SearchBar from "../SearchBar/SearchBar";
 
@@ -11,20 +11,30 @@ export default function NavBar({
   onGenderChange,
   onSpecieChange,
 }) {
+  const [isFilterBarVisible, setIsFilterBarVisible] = useState(false);
+
+  const toggleFilterBar = () => {
+    setIsFilterBarVisible(!isFilterBarVisible);
+  };
+
   return (
     <div>
       <SearchBar onSearch={onSearch} />
       <div>
-        <h6>Filtros</h6>
+        <button onClick={toggleFilterBar}>
+          {isFilterBarVisible ? "Ocultar Filtros" : "Mostrar Filtros"}
+        </button>
       </div>
-      <FilterBar
-        statuses={statuses}
-        genders={genders}
-        species={species}
-        onStatusChange={onStatusChange}
-        onGenderChange={onGenderChange}
-        onSpecieChange={onSpecieChange}
-      />
+      {isFilterBarVisible && (
+        <FilterBar
+          statuses={statuses}
+          genders={genders}
+          species={species}
+          onStatusChange={onStatusChange}
+          onGenderChange={onGenderChange}
+          onSpecieChange={onSpecieChange}
+        />
+      )}
     </div>
   );
 }
