@@ -7,9 +7,19 @@ export default function Cards({ characters }) {
   console.log(characters);
   return (
     <div>
-      {characters.map(({ name, image, id }) => (
-        <Card key={id} name={name} img={image} />
-      ))}
+      {characters.map(
+        ({ name, image, id, status, gender, species, origin }) => (
+          <Card
+            key={id}
+            name={name}
+            img={image}
+            status={status}
+            gender={gender}
+            species={species}
+            origin={origin}
+          />
+        )
+      )}
     </div>
   );
 }

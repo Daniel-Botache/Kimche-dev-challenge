@@ -12,8 +12,22 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [species, setSpecies] = useState([]);
   const [genders, setGenders] = useState([]);
-  const [status, setStatus] = useState([]);
+  const [status, setStatus] = useState("");
+  const [specie, setSpecie] = useState("");
+  const [gender, setGender] = useState("");
+  const [statuses, setStatuses] = useState([]);
   const client = useApolloClient(); // Obtener el cliente Apollo
+  const handleChangeSpecie = (event) => {
+    setSpecie(event.target.value);
+  };
+
+  const handleChangeGender = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleChangeStatus = (event) => {
+    setStatus(event.target.value);
+  };
 
   const GET_CHARACTERS = gql`
     query GetCharacters($page: Int!) {
@@ -29,14 +43,31 @@ export default function Home() {
           species
           gender
           status
+          origin {
+            name
+          }
         }
       }
     }
   `;
 
   const SEARCH_CHARACTERS = gql`
-    query SearchCharacters($page: Int, $name: String) {
-      characters(page: $page, filter: { name: $name }) {
+    query SearchCharacters(
+      $page: Int
+      $name: String
+      $status: String
+      $gender: String
+      $species: String
+    ) {
+      characters(
+        page: $page
+        filter: {
+          name: $name
+          status: $status
+          gender: $gender
+          species: $species
+        }
+      ) {
         info {
           count
           pages
@@ -45,6 +76,12 @@ export default function Home() {
           name
           image
           id
+          status
+          species
+          gender
+          origin {
+            name
+          }
         }
       }
     }
@@ -75,17 +112,22 @@ export default function Home() {
         page: currentPage,
         name: searchTerm,
         perPage: charactersPerPage,
+        species: specie,
+        gender: gender,
+        status: status,
       },
     }
   );
 
   useEffect(() => {
+    handleSearch(searchTerm);
     if (data) {
       const totalPages = data.characters.info.pages;
       setTotalPages(totalPages);
       const characters = data.characters.results;
       setCharactersPage(characters);
       console.log(charactersPage);
+      console.log(gender);
     }
   }, [data]);
 
@@ -113,12 +155,12 @@ export default function Home() {
         }
         return unique;
       }, []);
-      setStatus(uniqueStatus);
+      setStatuses(uniqueStatus);
       setGenders(uniqueGender);
       setSpecies(uniqueSpecies);
       console.log(uniqueSpecies); // Log después de establecer el estado
       console.log(uniqueGender);
-      console.log(uniqueStatus);
+      console.log(setStatuses);
     };
 
     fetchAllCharacters();
@@ -130,16 +172,58 @@ export default function Home() {
 
   const handleSearch = (term) => {
     setSearchTerm(term);
-    setCurrentPage(1);
+    // Verifica si al menos uno de los filtros está activo
+    if (searchTerm || specie || gender || status) {
+      // Define el filtro
+      const filter = {
+        name: searchTerm,
+        species: specie,
+        gender: gender,
+        status: status,
+      };
+
+      // Realiza la consulta con los filtros
+      client
+        .query({
+          query: SEARCH_CHARACTERS,
+          variables: {
+            page: currentPage,
+            ...filter,
+            perPage: charactersPerPage,
+          },
+        })
+        .then(({ data }) => {
+          const totalPages = data.characters.info.pages;
+          setTotalPages(totalPages);
+          const characters = data.characters.results;
+          setCharactersPage(characters);
+        });
+    } else {
+      // Si no hay filtros, realiza una consulta general
+      client
+        .query({
+          query: GET_CHARACTERS,
+          variables: { page: currentPage },
+        })
+        .then(({ data }) => {
+          const totalPages = data.characters.info.pages;
+          setTotalPages(totalPages);
+          const characters = data.characters.results;
+          setCharactersPage(characters);
+        });
+    }
   };
 
   return (
     <div>
       <NavBar
         onSearch={handleSearch}
-        status={status}
+        statuses={statuses}
         genders={genders}
         species={species}
+        onStatusChange={handleChangeStatus}
+        onGenderChange={handleChangeGender}
+        onSpecieChange={handleChangeSpecie}
       />
       <Cards characters={charactersPage} />
       {totalPages === 1 ? (

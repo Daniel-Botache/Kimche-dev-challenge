@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Card({ name, img }) {
+export default function Card({ name, img, gender, status, species, origin }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
-      <img src={img} alt="character" />
+      <img src={img} alt="character" onClick={openModal} />
       <h2>Name: {name}</h2>
-      {/*   <h3>Gender</h3>
-      <h3>Origin</h3>
-      <h3>Status</h3>
-      <h3>Species</h3>
-      <h3>Type</h3>
-      <h3>Location</h3>
-      <h3>Dimension</h3> */}
+
+      {isModalOpen && (
+        <div className="modal">
+          {/* Contenido del modal */}
+          <button onClick={closeModal}>Close</button>
+          <h3>Gender: {gender}</h3>
+          <h3>Origin: {origin.name}</h3>
+          <h3>Status: {status}</h3>
+          <h3>Species: {species}</h3>
+        </div>
+      )}
     </div>
   );
 }
