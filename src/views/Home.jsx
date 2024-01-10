@@ -31,7 +31,7 @@ export default function Home() {
   return (
     <div>
       <NavBar />
-      <Cards />
+      <Cards data={data} />
     </div>
   );
 }
